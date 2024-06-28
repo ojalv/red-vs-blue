@@ -1,0 +1,121 @@
+:root {
+    --sky: #D24D03;
+    --terrain: #000000;
+    --sun: #FFC700;
+    --blue: #03009E;
+    --red: #9E0000;
+    --green: #00FF29
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+#map {
+    height: 100vh;
+    width: 100vw;
+}
+
+#sky {
+    background-color: var(--sky);
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+#sun {
+    background-color: var(--sun);
+    width: 500px;
+    height: 500px;
+    border-radius: 100%;
+    position: absolute;
+    left: calc(50% - 250px);
+    top: calc(75% - 250px);
+
+}
+
+#ground {
+    background-color: var(--terrain);
+    width: 100%;
+    height: 15vh;
+    position: absolute;
+    bottom: 0px;
+}
+
+.guy {
+    height: 200px;
+    width: 100px;
+    bottom: 15vh;
+
+}
+
+.guy#p2{
+    background-color: var(--blue);
+    position: absolute;
+    right: 20%;
+}
+
+.guy#p1 {
+    background-color: var(--red);
+    position: absolute;
+    left: 20%;
+}
+
+.lifeBars {
+    display: flex;
+    justify-content: space-evenly;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    top: 40px;
+}
+
+.lifeBar{
+    width: 600px;
+    background-color: var(--red)
+}
+
+.life {
+    width: 100%;
+    height: 100%;
+    background-color: var(--green);
+}
+
+.hat {
+    width: 100px;
+    height: 80px;
+}
+
+.gun {
+    width: 80px;
+    height: 80px;
+}
+
+#p2 .gun {
+    transform: scaleX(-1);
+    left: -70px;
+}
+
+.guy .hat{
+    position: absolute;
+    top: -60px;
+}
+
+.guy .gun {
+    position: absolute;
+    top: calc(50% - 60px);
+
+}
+
+#p1 .gun {
+    left: 70px;
+}
+
+.playerName {
+    position: absolute;
+    top: calc(30%);
+}
