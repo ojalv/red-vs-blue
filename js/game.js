@@ -12,17 +12,24 @@ class Guy {
         this.reloadKey = reloadKey
         this.changeStanceKey = changeStanceKey
         this.isBlocking = false
+        this.sfx = {
+            fire: "../assets/sfx/revolver-fire.wav",
+            reload: "../assets/sfx/revolver-reload.mp3",
+            block: "../assets/sfx/hit-with-frying-pan.mp3"
+        }
     }
     shoot(enemy) {
         if (!this.isBlocking) {
             if (!this.bullets <= 0) {
                 this.bullets -= 1;
+                this.playSfx(`${this.playerID}Audio`, this.sfx.fire)
                 enemy.getDamaged(this)
                 //shoot:sfx
                 //shoot:animation
             }
             else {
                 this.reload()
+
             }
 
 
@@ -34,7 +41,7 @@ class Guy {
     }
     reload() {
         console.log(`${this.name} is reloading!`);
-        //reload:sfx
+        this.playSfx(`${this.playerID}Audio`, this.sfx.reload)
         //reload:animation
         this.bullets = 6;
     }
@@ -43,7 +50,7 @@ class Guy {
         if (this.isBlocking) {
             this.isBlocking = false
             console.log(`${this.name} is holding his weapon!`);
-            //change to weapon SFX
+            this.playSfx(`${this.playerID}Audio`, this.sfx.reload)
             //change to weapon animation
 
         }
@@ -51,7 +58,7 @@ class Guy {
         else {
             this.isBlocking = true
             console.log(`${this.name} is now blocking`);
-            //change to block SFX
+            this.playSfx(`${this.playerID}Audio`, this.sfx.block)
             //change to block animation
         }
     }
@@ -63,6 +70,8 @@ class Guy {
 
         if (this.isBlocking) {
             console.log(`${this.name} blocked the bullet!\nlife:${this.life}`);
+            this.playSfx(`${this.playerID}Audio`, this.sfx.block)
+
         }
     }
     isEnemyDead(enemy) {
@@ -71,6 +80,10 @@ class Guy {
             return true
         }
         return false
+    }
+    playSfx(audioLabelID, sfxPath) {
+        document.getElementById(`${audioLabelID}`).setAttribute("src", `${sfxPath}`)
+        document.getElementById(`${audioLabelID}`).play()
     }
 }
 
