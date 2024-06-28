@@ -1,6 +1,7 @@
 class Guy {
-    constructor(name, shootKey = "a", reloadKey = "s", changeStanceKey = "d") {
+    constructor(name, playerID, shootKey = "a", reloadKey = "s", changeStanceKey = "d") {
         this.name = name
+        this.playerID = playerID
         this.hatID = "cowboy-side"
         this.gunID = "revolver"
         this.shieldID = "frying-pan"
@@ -91,7 +92,20 @@ class Game {
         document.querySelector("#p1LifeBar .life").style.width = `${p1.life}%`
         document.querySelector("#p2LifeBar .life").style.width = `${p2.life}%`
     }
+    renderStance(player) {
+        if (!player.isBlocking) {
+            this.renderWeapon(player)
+        } else {
+            this.rendershield(player)
+        }
+    }
+    renderWeapon(player) {
+        document.getElementById(`${player.playerID}Gun`).setAttribute("src", "../assets/guns/revolver-svgrepo-com.svg")
 
+    }
+    rendershield(player) {
+        document.getElementById(`${player.playerID}Gun`).setAttribute("src", "../assets/shields/frying-pan-and-fried-egg-svgrepo-com.svg")
+    }
     playerKeysListeners(player, enemy) {
         document.querySelector("body").addEventListener(`keydown`, (e) => {
             switch (e.key) {
@@ -107,6 +121,7 @@ class Game {
                     break;
                 case player.changeStanceKey:
                     player.changeStance()
+                    this.renderStance(player)
                     break;
 
                 case player.reloadKey:
@@ -143,8 +158,8 @@ class Game {
     soundOptions() { }
 }
 
-const p1 = new Guy("red")
-const p2 = new Guy("blue", "z", "x", "c")
+const p1 = new Guy("red", "p1")
+const p2 = new Guy("blue", "p2", "z", "x", "c")
 
 const game = new Game
 
