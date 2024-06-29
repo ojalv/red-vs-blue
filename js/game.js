@@ -15,7 +15,8 @@ class Guy {
         this.sfx = {
             fire: "../assets/sfx/revolver-fire.wav",
             reload: "../assets/sfx/revolver-reload.mp3",
-            block: "../assets/sfx/hit-with-frying-pan.mp3"
+            block: "../assets/sfx/hit-with-frying-pan.mp3",
+            click: "../assets/sfx/revolver-handling-clicking-foley.mp3"
         }
     }
     shoot(enemy) {
@@ -24,11 +25,10 @@ class Guy {
                 this.bullets -= 1;
                 this.playSfx(`${this.playerID}Audio`, this.sfx.fire)
                 enemy.getDamaged(this)
-                //shoot:sfx
                 //shoot:animation
             }
             else {
-                this.reload()
+                this.playSfx(`${this.playerID}Audio`, this.sfx.click)
 
             }
 
@@ -50,7 +50,7 @@ class Guy {
         if (this.isBlocking) {
             this.isBlocking = false
             console.log(`${this.name} is holding his weapon!`);
-            this.playSfx(`${this.playerID}Audio`, this.sfx.reload)
+            this.playSfx(`${this.playerID}Audio`, this.sfx.click)
             //change to weapon animation
 
         }
@@ -93,10 +93,14 @@ class Game {
         this.isMenuVisible = false
         this.isPlayerOptionsVisible = false
         this.isSoundOptionsVisible = false
+        this.music = {
+            desertSnake: "../assets/sfx/desert-snake.mp3",
+        }
     }
 
     gameStart(p1, p2) {
         this.menuListeners()
+        this.playMusic("mapMusic", this.music.desertSnake)
         this.renderLifeBars(p1, p2)
         this.playerKeysListeners(p1, p2)
         this.playerKeysListeners(p2, p1)
@@ -169,6 +173,22 @@ class Game {
     hideMenu() { }
     playerOptions(player) { }
     soundOptions() { }
+
+    playMusic(audioLabelID, musicPath) {
+        //this function plays music when the screen is clicked
+        const clickHandler = (e) => {
+            if (document.getElementById("map").contains(e.target)) {
+                const audioElement = document.getElementById(audioLabelID)
+
+                if (audioElement) {
+                    audioElement.setAttribute("src", musicPath)
+                    audioElement.play()
+                }
+                document.removeEventListener("click", clickHandler)
+            }
+        }
+        document.addEventListener("click", clickHandler)
+    }
 }
 
 const p1 = new Guy("red", "p1")
