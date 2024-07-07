@@ -45,24 +45,39 @@ class Game {
       } else {
         console.log(`Remaining Time: ${this.remainingTime}`);
         this.isWinner(p1, p2);
-
         this.remainingTime -= 1;
       }
     }, 1000);
   }
   isWinner(p1, p2) {
+    if (p1.life > p2.life && this.remainingTime == 0) {
+      this.removeAllListeners(p1, p2);
+      console.log(`${p1.name} wins!`);
+      this.removeGlobalListener();
+      console.log(`GameOver`);
+      //end screen
+    }
+    if (p1.life < p2.life && this.remainingTime == 0) {
+      this.removeAllListeners(p1, p2);
+      console.log(`${p2.name} wins!`);
+      this.removeGlobalListener();
+      console.log(`GameOver`);
+      //end screen
+    }
     if (p2.life <= 0) {
       this.removeAllListeners(p1, p2);
-      alert(`${p1.name} wins!`);
+      console.log(`${p1.name} wins!`);
       this.removeGlobalListener();
+      this.remainingTime = 0;
       console.log(`GameOver`);
 
       //end screen
     }
     if (p1.life <= 0) {
       this.removeAllListeners(p1, p2);
-      alert(`${p2.name} wins!`);
+      console.log(`${p2.name} wins!`);
       this.removeGlobalListener();
+      this.remainingTime = 0;
       console.log(`GameOver`);
       //end screen
     }
