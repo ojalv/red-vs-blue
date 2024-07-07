@@ -118,14 +118,28 @@ class Game {
   constructor() {
     this.globalHandlerFunction = null;
     this.menuHandlerFunction = null;
-    this.remainingTime = 60;
+    this.remainingTime = 10;
+    this.winnerName = null;
+    this.draw = false;
+    this.clock = setInterval(() => {
+      this.isWinner(p1, p2);
+      if (!(this.remainingTime == 0)) {
+        if (!(this.winnerName == null)) {
+          clearInterval(this.clock);
+          console.log(`Remaining Time: ${this.remainingTime}`);
+        } else {
+          console.log(`Remaining Time: ${this.remainingTime}`);
+          this.remainingTime -= 1;
+        }
+      } else {
+        console.log(`Remaining Time: ${this.remainingTime}`);
+        clearInterval(this.clock);
+      }
+    }, 1000);
   }
   // event listeners management
-  globalHandler(p1, p2) {
-    const gh = () => {
-      this.isWinner(p1, p2);
-      this.isWinner(p2, p1);
-    };
+  globalHandler() {
+    const gh = () => {};
     return gh;
   }
   addGlobalListener(p1, p2) {
@@ -153,55 +167,41 @@ class Game {
     p2.removeBlockListener();
   }
   //in game events
-  clock() {
-    const interval = setInterval(() => {
-      if (this.remainingTime == 0) {
-        clearInterval(interval);
-        console.log(`Remaining Time: ${this.remainingTime}`);
-      } else {
-        console.log(`Remaining Time: ${this.remainingTime}`);
-        this.isWinner(p1, p2);
-        this.remainingTime -= 1;
-      }
-    }, 1000);
-  }
-  isWinner(p1, p2) {
-    if (p1.life > p2.life && this.remainingTime == 0) {
-      this.removeAllListeners(p1, p2);
-      console.log(`${p1.name} wins!`);
-      this.removeGlobalListener();
-      console.log(`GameOver`);
-      //end screen
-    }
-    if (p1.life < p2.life && this.remainingTime == 0) {
-      this.removeAllListeners(p1, p2);
-      console.log(`${p2.name} wins!`);
-      this.removeGlobalListener();
-      console.log(`GameOver`);
-      //end screen
-    }
-    if (p2.life <= 0) {
-      this.removeAllListeners(p1, p2);
-      console.log(`${p1.name} wins!`);
-      this.removeGlobalListener();
-      this.remainingTime = 0;
-      console.log(`GameOver`);
 
-      //end screen
+  isWinner(p1, p2) {
+    if (this.remainingTime == 0) {
+      if (p1.life > p2.life) {
+        this.winnerName = p1.name;
+      } else if (p1.life < p2.life) {
+        this.winnerName = p2.name;
+      } else if (p1.life == p2.life) {
+        this.draw = true;
+      }
+    } else {
+      if (p2.life <= 0) {
+        this.winnerName = p1.name;
+      } else if (p1.life <= 0) {
+        this.winnerName = p2.name;
+      }
     }
-    if (p1.life <= 0) {
+    if (!this.draw) {
+      if (!(this.winnerName == null)) {
+        this.removeAllListeners(p1, p2);
+        console.log(`${this.winnerName} wins!`);
+        this.removeGlobalListener();
+        console.log(`GameOver`);
+        //end screen
+      }
+    } else {
       this.removeAllListeners(p1, p2);
-      console.log(`${p2.name} wins!`);
+      console.log(`Draw!`);
       this.removeGlobalListener();
-      this.remainingTime = 0;
       console.log(`GameOver`);
-      //end screen
     }
   }
   play(p1, p2) {
     this.addAllListeners(p1, p2);
     this.addGlobalListener(p1, p2);
-    this.clock();
   }
 }
 
