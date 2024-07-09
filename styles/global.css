@@ -1,121 +1,183 @@
 :root {
-    --sky: #D24D03;
-    --terrain: #000000;
-    --sun: #FFC700;
-    --blue: #03009E;
-    --red: #9E0000;
-    --green: #00FF29
+  --sky: #d24d03;
+  --terrain: #000000;
+  --sun: #ffc700;
+  --blue: #03009e;
+  --red: #9e0000;
+  --green: #00ff29;
 }
 
 * {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
 #map {
-    height: 100vh;
-    width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 
 #sky {
-    background-color: var(--sky);
-    position: absolute;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
+  background-color: var(--sky);
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 #sun {
-    background-color: var(--sun);
-    width: 500px;
-    height: 500px;
-    border-radius: 100%;
-    position: absolute;
-    left: calc(50% - 250px);
-    top: calc(75% - 250px);
-
+  background-color: var(--sun);
+  width: 240px;
+  height: 200px;
+  border-radius: 100%;
+  position: absolute;
+  left: calc(50% - 120px);
+  top: calc(80% - 100px);
 }
 
 #ground {
-    background-color: var(--terrain);
-    width: 100%;
-    height: 15vh;
-    position: absolute;
-    bottom: 0px;
+  background-color: var(--terrain);
+  width: 100%;
+  height: 54px;
+  position: absolute;
+  bottom: 0px;
 }
 
 .guy {
-    height: 200px;
-    width: 100px;
-    bottom: 15vh;
-
+  height: 100px;
+  width: 50px;
+  bottom: 54px;
 }
 
-.guy#p2{
-    background-color: var(--blue);
-    position: absolute;
-    right: 20%;
+.guy#p2 {
+  background-color: var(--blue);
+  position: absolute;
+  right: 128px;
 }
 
 .guy#p1 {
-    background-color: var(--red);
-    position: absolute;
-    left: 20%;
+  background-color: var(--red);
+  position: absolute;
+  left: 128px;
 }
 
 .lifeBars {
-    display: flex;
-    justify-content: space-evenly;
-    height: 60px;
-    width: 100%;
-    position: fixed;
-    top: 40px;
+  display: flex;
+  justify-content: space-around;
+  height: 35px;
+  width: 100%;
+  position: fixed;
+  top: 20px;
 }
 
-.lifeBar{
-    width: 600px;
-    background-color: var(--red)
+.lifeBar {
+  width: 250px;
+  background-color: var(--red);
+  border: solid 2px;
 }
 
 .life {
-    width: 100%;
-    height: 100%;
-    background-color: var(--green);
+  width: 100%;
+  height: 100%;
+  background-color: var(--green);
 }
 
 .hat {
-    width: 100px;
-    height: 80px;
+  width: 50px;
+  height: 50px;
 }
 
 .gun {
-    width: 80px;
-    height: 80px;
+  width: 50px;
+  height: 50px;
 }
 
 #p2 .gun {
-    transform: scaleX(-1);
-    left: -70px;
+  transform: scaleX(-1);
+  left: -40px;
+  top: 5px;
 }
 
-.guy .hat{
-    position: absolute;
-    top: -60px;
+.guy .hat {
+  position: absolute;
+  top: -40px;
 }
 
 .guy .gun {
-    position: absolute;
-    top: calc(50% - 60px);
-
+  position: absolute;
 }
 
 #p1 .gun {
-    left: 70px;
+  left: 40px;
+  top: 5px;
 }
 
 .playerName {
-    position: absolute;
-    top: calc(30%);
+  position: absolute;
+  text-align: center;
+  top: 10px;
+  padding-left: 10px;
+}
+
+.clock {
+  font-weight: 700;
+  font-size: larger;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  background-color: white;
+  border: solid 2px;
+}
+
+@media (max-width: 645px) {
+  .guy#p1 {
+    left: 50px;
+  }
+  .guy#p2 {
+    right: 50px;
+  }
+  .lifeBar {
+    scale: 0.7;
+  }
+
+  .clock {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .guy#p1 {
+    left: 20%;
+  }
+  .guy#p2 {
+    right: 20%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .guy#p1 {
+    scale: 2;
+  }
+  .guy#p2 {
+    scale: 2;
+  }
+  .lifeBars {
+    top: 10%;
+  }
+  .lifeBar {
+    scale: 2;
+  }
+
+  .clock {
+    scale: 2;
+  }
+  #sun {
+    scale: 2;
+  }
 }
