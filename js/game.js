@@ -300,6 +300,7 @@ class Game {
     }
   }
   play(p1, p2) {
+    this.renderClock()
     this.renderPlayersAssets(p1, p2);
     this.addAllListeners(p1, p2);
     this.addGlobalListener(p1, p2);
