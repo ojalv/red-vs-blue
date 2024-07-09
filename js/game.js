@@ -75,6 +75,9 @@ class Player {
   }
   // reload
   reload() {
+    document
+    .querySelector(`.guy #p${this.ID}Gun`)
+    .setAttribute("src", `${this.gun.skin}`);
     this.isBlocking = false;
     if (this.gun.bullets < this.gun.magazineSize) {
       console.log(`${this.name}: +1 bullet`);
