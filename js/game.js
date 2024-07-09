@@ -21,6 +21,13 @@ class Player {
         this.gun.bullets -= 1;
         console.log(`${this.name} bullets: ${this.gun.bullets}`);
         enemy.life -= this.gun.damage;
+
+        if (!(enemy.life < 0)) {
+          document
+            .querySelector(`#p${enemy.ID}LifeBar .life`)
+            .setAttribute("style", `width: ${enemy.life}%;`);
+        }
+
         console.log(`${enemy.name} life: ${enemy.life}`);
       } else {
         //if the enemy is blocking you dont deal damage
@@ -112,7 +119,7 @@ class Gun {
 const revolver1 = new Gun("revolver", 50, 6, 6);
 const revolver2 = new Gun("revolver", 1, 6, 6);
 const p1 = new Player(1, "alvaro", revolver1);
-const p2 = new Player(1, "juan", revolver2, "z", "x", "c");
+const p2 = new Player(2, "juan", revolver2, "z", "x", "c");
 
 class Game {
   constructor() {
