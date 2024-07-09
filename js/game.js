@@ -125,17 +125,23 @@ class Game {
       this.isWinner(p1, p2);
       if (!(this.remainingTime == 0)) {
         if (!(this.winnerName == null)) {
+          this.renderClock();
           clearInterval(this.clock);
           console.log(`Remaining Time: ${this.remainingTime}`);
         } else {
           console.log(`Remaining Time: ${this.remainingTime}`);
+          this.renderClock();
           this.remainingTime -= 1;
         }
       } else {
+        this.renderClock();
         console.log(`Remaining Time: ${this.remainingTime}`);
         clearInterval(this.clock);
       }
     }, 1000);
+  }
+  renderClock() {
+    document.getElementById("time").innerText = this.remainingTime;
   }
   // event listeners management
   globalHandler() {
