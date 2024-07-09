@@ -34,10 +34,14 @@ class Player {
         console.log(`${this.name} bullets: ${this.gun.bullets}`);
         enemy.life -= this.gun.damage;
 
-        if (!(enemy.life < 0)) {
+        if (!(enemy.life <= 0)) {
           document
             .querySelector(`#p${enemy.ID}LifeBar .life`)
             .setAttribute("style", `width: ${enemy.life}%;`);
+        } else {
+          document
+            .querySelector(`#p${enemy.ID}LifeBar .life`)
+            .setAttribute("style", `width: 0%;`);
         }
 
         console.log(`${enemy.name} life: ${enemy.life}`);
