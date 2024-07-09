@@ -33,6 +33,7 @@ class Player {
       //reduce enemy life equal to gun damage if enemy is not blocking and you are'nt out of bullets
       if (!enemy.isBlocking) {
         this.gun.bullets -= 1;
+        console.log(`bullets: ${this.gun.bullets}`);
         console.log(`${this.name} bullets: ${this.gun.bullets}`);
         enemy.life -= this.gun.damage;
 
@@ -48,6 +49,8 @@ class Player {
 
         console.log(`${enemy.name} life: ${enemy.life}`);
       } else {
+        console.log(`${this.name} bullets: ${this.gun.bullets}`);
+        this.gun.bullets -= 1;
         //if the enemy is blocking you dont deal damage
         console.log(`${this.name} shoots but ${enemy.name} is blocking`);
       }
@@ -76,8 +79,8 @@ class Player {
   // reload
   reload() {
     document
-    .querySelector(`.guy #p${this.ID}Gun`)
-    .setAttribute("src", `${this.gun.skin}`);
+      .querySelector(`.guy #p${this.ID}Gun`)
+      .setAttribute("src", `${this.gun.skin}`);
     this.isBlocking = false;
     if (this.gun.bullets < this.gun.magazineSize) {
       console.log(`${this.name}: +1 bullet`);
@@ -176,8 +179,18 @@ const hats = [
     "../assets/hats/cowboy-side/hat-cowboy-side-solid.svg"
   ),
 ];
-const p1 = new Player(1, "alvaro", guns[0], shields[0], hats[1]);
-const p2 = new Player(2, "juan", guns[0], shields[0], hats[1], "z", "x", "c");
+const p1 = new Player(1, "alvaro", { ...guns[0] }, shields[0], hats[1]);
+
+const p2 = new Player(
+  2,
+  "juan",
+  structuredClone(guns[0]),
+  shields[0],
+  hats[1],
+  "z",
+  "x",
+  "c"
+);
 
 class Game {
   constructor() {
