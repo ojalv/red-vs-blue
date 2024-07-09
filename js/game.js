@@ -3,6 +3,7 @@ class Player {
     ID,
     name,
     gun,
+    shield,
     hat,
     shootKey = "a",
     reloadKey = "s",
@@ -11,6 +12,7 @@ class Player {
     this.ID = ID;
     this.name = name;
     this.gun = gun;
+    this.shield = shield;
     this.hat = hat;
     this.life = 100;
     this.shootKey = shootKey;
@@ -103,6 +105,9 @@ class Player {
     //during the this state you are invulneable
     //this state has a counter what reduces while you blocking and recharges while you don't
     //if the counter of blocking is equal to zero, you loose blocking for a moment
+    document
+      .querySelector(`.guy #p${this.ID}Gun`)
+      .setAttribute("src", `${this.shield.skin}`);
     console.log(`${this.name} is blocking!`);
 
     this.isBlocking = true;
@@ -133,6 +138,12 @@ class Gun {
     this.skin = skin;
   }
 }
+class Shield {
+  constructor(name, skin) {
+    this.name = name;
+    this.skin = skin;
+  }
+}
 class Hat {
   constructor(name, skin) {
     this.name = name;
@@ -149,6 +160,12 @@ const guns = [
   ),
 ];
 
+const shields = [
+  new Shield(
+    "frying-pan",
+    "../assets/shields/frying-pan/skin/frying-pan-and-fried-egg-svgrepo-com.svg"
+  ),
+];
 const hats = [
   new Hat("cowboy", "../assets/hats/cowboy/hat-cowboy-solid.svg"),
   new Hat(
@@ -156,8 +173,8 @@ const hats = [
     "../assets/hats/cowboy-side/hat-cowboy-side-solid.svg"
   ),
 ];
-const p1 = new Player(1, "alvaro", guns[0], hats[1]);
-const p2 = new Player(2, "juan", guns[0], hats[1], "z", "x", "c");
+const p1 = new Player(1, "alvaro", guns[0], shields[0], hats[1]);
+const p2 = new Player(2, "juan", guns[0], shields[0], hats[1], "z", "x", "c");
 
 class Game {
   constructor() {
