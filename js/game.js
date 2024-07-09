@@ -1,8 +1,17 @@
 class Player {
-  constructor(ID, name, gun, shootKey = "a", reloadKey = "s", blockKey = "d") {
+  constructor(
+    ID,
+    name,
+    gun,
+    hat,
+    shootKey = "a",
+    reloadKey = "s",
+    blockKey = "d"
+  ) {
     this.ID = ID;
     this.name = name;
     this.gun = gun;
+    this.hat = hat;
     this.life = 100;
     this.shootKey = shootKey;
     this.reloadKey = reloadKey;
@@ -14,6 +23,9 @@ class Player {
   }
   // shoot
   shoot(enemy) {
+    document
+      .querySelector(`.guy #p${this.ID}Gun`)
+      .setAttribute("src", `${this.gun.skin}`);
     this.isBlocking = false;
     if (this.gun.bullets > 0) {
       //reduce enemy life equal to gun damage if enemy is not blocking and you are'nt out of bullets
@@ -109,17 +121,39 @@ class Player {
   }
 }
 class Gun {
-  constructor(name, damage, bullets, magazineSize) {
+  constructor(name, damage, magazineSize, skin) {
     this.name = name;
     this.damage = damage;
-    this.bullets = bullets;
+    this.bullets = magazineSize;
     this.magazineSize = magazineSize;
+    this.skin = skin;
   }
 }
-const revolver1 = new Gun("revolver", 50, 6, 6);
-const revolver2 = new Gun("revolver", 1, 6, 6);
-const p1 = new Player(1, "alvaro", revolver1);
-const p2 = new Player(2, "juan", revolver2, "z", "x", "c");
+class Hat {
+  constructor(name, skin) {
+    this.name = name;
+    this.skin = skin;
+  }
+}
+const guns = [
+  new Gun("pistol", 15, 12, "../assets/guns/pistol/skin/gun-solid.svg"),
+  new Gun(
+    "revolver",
+    30,
+    6,
+    "../assets/guns/revolver/skin/revolver-svgrepo-com.svg"
+  ),
+];
+
+const hats = [
+  new Hat("cowboy", "../assets/hats/cowboy/hat-cowboy-solid.svg"),
+  new Hat(
+    "cowboy-side",
+    "../assets/hats/cowboy-side/hat-cowboy-side-solid.svg"
+  ),
+];
+const p1 = new Player(1, "alvaro", guns[0], hats[1]);
+const p2 = new Player(2, "juan", guns[0], hats[1], "z", "x", "c");
 
 class Game {
   constructor() {
@@ -150,6 +184,22 @@ class Game {
   renderClock() {
     document.getElementById("time").innerText = this.remainingTime;
   }
+  renderPlayersAssets(p1, p2) {
+    document
+      .querySelector(`.guy #p${p1.ID}Gun`)
+      .setAttribute("src", `${p1.gun.skin}`);
+
+    document
+      .querySelector(`.guy #p${p2.ID}Gun`)
+      .setAttribute("src", `${p2.gun.skin}`);
+    document
+      .querySelector(`.guy #p${p1.ID}Hat`)
+      .setAttribute("src", `${p1.hat.skin}`);
+    document
+      .querySelector(`.guy #p${p2.ID}Hat`)
+      .setAttribute("src", `${p2.hat.skin}`);
+  }
+
   // event listeners management
   globalHandler() {
     const gh = () => {};
@@ -213,6 +263,7 @@ class Game {
     }
   }
   play(p1, p2) {
+    this.renderPlayersAssets(p1, p2);
     this.addAllListeners(p1, p2);
     this.addGlobalListener(p1, p2);
   }
