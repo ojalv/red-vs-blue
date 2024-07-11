@@ -194,8 +194,6 @@ const p2 = new Player(
 
 class Game {
   constructor() {
-    this.globalHandlerFunction = null;
-    this.menuHandlerFunction = null;
     this.remainingTime = 10;
     this.winnerName = null;
     this.draw = false;
@@ -238,18 +236,6 @@ class Game {
   }
 
   // event listeners management
-  globalHandler() {
-    const gh = () => {};
-    return gh;
-  }
-  addGlobalListener(p1, p2) {
-    this.globalHandlerFunction = this.globalHandler(p1, p2);
-    document.addEventListener("keydown", this.globalHandlerFunction);
-  }
-  removeGlobalListener() {
-    document.removeEventListener("keydown", this.globalHandlerFunction);
-    this.globalHandlerFunction = null;
-  }
   addAllListeners(p1, p2) {
     p1.addShootListener(p2);
     p1.addReloadListener();
@@ -288,22 +274,19 @@ class Game {
       if (!(this.winnerName == null)) {
         this.removeAllListeners(p1, p2);
         console.log(`${this.winnerName} wins!`);
-        this.removeGlobalListener();
         console.log(`GameOver`);
         //end screen
       }
     } else {
       this.removeAllListeners(p1, p2);
       console.log(`Draw!`);
-      this.removeGlobalListener();
       console.log(`GameOver`);
     }
   }
   play(p1, p2) {
-    this.renderClock()
+    this.renderClock();
     this.renderPlayersAssets(p1, p2);
     this.addAllListeners(p1, p2);
-    this.addGlobalListener(p1, p2);
   }
 }
 
