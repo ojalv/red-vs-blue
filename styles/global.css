@@ -159,6 +159,30 @@
     right: 20%;
   }
 }
+/*menu*/
+#menu {
+  position: absolute;
+  top: 10vh;
+  left: 12.5vw;
+  width: 75vw;
+  height: 75vh;
+  background-color: red;
+  z-index: 10;
+
+}
+.hidden {
+  display: none;
+}
+.opacity {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  opacity: 50%;
+  z-index: 2;
+}
 
 @media (min-width: 1024px) {
   .guy#p1 {

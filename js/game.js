@@ -243,6 +243,7 @@ class Game {
     p2.addShootListener(p1);
     p2.addReloadListener();
     p2.addBlockListener();
+    this.addMenuListener();
   }
   removeAllListeners(p1, p2) {
     p1.removeShootListener(p2);
@@ -287,6 +288,35 @@ class Game {
     this.renderClock();
     this.renderPlayersAssets(p1, p2);
     this.addAllListeners(p1, p2);
+  }
+  addMenuListener() {
+    document.addEventListener("keydown", (e) => {
+      switch (e.key) {
+        case "Escape":
+          this.switchMenu();
+          break;
+
+        default:
+          break;
+      }
+    });
+  }
+  closeMenu() {
+    this.isOpen = false;
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("opacity").classList.add("hidden");
+  }
+  openMenu() {
+    this.isOpen = true;
+    document.getElementById("menu").classList.remove("hidden");
+    document.getElementById("opacity").classList.remove("hidden");
+  }
+  switchMenu() {
+    if (!this.isOpen) {
+      this.openMenu();
+    } else {
+      this.closeMenu();
+    }
   }
 }
 
