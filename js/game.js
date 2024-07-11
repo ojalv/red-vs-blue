@@ -197,24 +197,7 @@ class Game {
     this.remainingTime = 10;
     this.winnerName = null;
     this.draw = false;
-    this.clock = setInterval(() => {
-      this.isWinner(p1, p2);
-      if (!(this.remainingTime == 0)) {
-        if (!(this.winnerName == null)) {
-          this.renderClock();
-          clearInterval(this.clock);
-          console.log(`Remaining Time: ${this.remainingTime}`);
-        } else {
-          console.log(`Remaining Time: ${this.remainingTime}`);
-          this.renderClock();
-          this.remainingTime -= 1;
-        }
-      } else {
-        this.renderClock();
-        console.log(`Remaining Time: ${this.remainingTime}`);
-        clearInterval(this.clock);
-      }
-    }, 1000);
+    this.clock = null;
   }
   renderClock() {
     document.getElementById("time").innerText = this.remainingTime;
@@ -243,7 +226,6 @@ class Game {
     p2.addShootListener(p1);
     p2.addReloadListener();
     p2.addBlockListener();
-    this.addMenuListener();
   }
   removeAllListeners(p1, p2) {
     p1.removeShootListener(p2);
@@ -254,7 +236,29 @@ class Game {
     p2.removeBlockListener();
   }
   //in game events
-
+  pauseClock() {
+    clearInterval(this.clock);
+  }
+  startClock() {
+    this.clock = setInterval(() => {
+      this.isWinner(p1, p2);
+      if (!(this.remainingTime == 0)) {
+        if (!(this.winnerName == null)) {
+          this.renderClock();
+          clearInterval(this.clock);
+          console.log(`Remaining Time: ${this.remainingTime}`);
+        } else {
+          console.log(`Remaining Time: ${this.remainingTime}`);
+          this.renderClock();
+          this.remainingTime -= 1;
+        }
+      } else {
+        this.renderClock();
+        console.log(`Remaining Time: ${this.remainingTime}`);
+        clearInterval(this.clock);
+      }
+    }, 1000);
+  }
   isWinner(p1, p2) {
     if (this.remainingTime == 0) {
       if (p1.life > p2.life) {
@@ -286,8 +290,10 @@ class Game {
   }
   play(p1, p2) {
     this.renderClock();
+    this.startClock();
     this.renderPlayersAssets(p1, p2);
     this.addAllListeners(p1, p2);
+    this.addMenuListener();
   }
   addMenuListener() {
     document.addEventListener("keydown", (e) => {
@@ -303,13 +309,17 @@ class Game {
   }
   closeMenu() {
     this.isOpen = false;
+    this.startClock();
     document.getElementById("menu").classList.add("hidden");
     document.getElementById("opacity").classList.add("hidden");
+    this.addAllListeners(p1, p2);
   }
   openMenu() {
     this.isOpen = true;
+    this.pauseClock();
     document.getElementById("menu").classList.remove("hidden");
     document.getElementById("opacity").classList.remove("hidden");
+    this.removeAllListeners(p1, p2);
   }
   switchMenu() {
     if (!this.isOpen) {
